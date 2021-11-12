@@ -3,7 +3,6 @@ import boto3
 import requests
 
 def detect_labels(photo, bucket):
-    #test upload1
     labels_res = []
     client=boto3.client('rekognition')
     response = client.detect_labels(Image={'S3Object':{'Bucket':bucket,'Name':photo}},
@@ -21,10 +20,13 @@ def lambda_handler(event, context):
     for record in event['Records']:
         image_name = record["s3"]["object"]["key"]
         eventtime = record["eventTime"]
+        s3client = boto3.client('s3')
         metadata = s3client.head_object(Bucket=bucket, Key=image_name)
         print("metdata", metadata)
-        given_labels = metadata['Metadata']["customlabel"].split(",")
-        given_labels = [x.strip() for x in given_labels]
+        given_labels=[]
+        if 'Metadata' in metadata.keys() and 'customlabel' in metadata['Metadata'].keys():
+            given_labels = metadata['Metadata']["customlabel"].split(",")
+            given_labels = [x.strip() for x in given_labels]
         print("given_labels", given_labels)
         print(image_name,eventtime)
         labels_res=detect_labels(image_name, bucket)
