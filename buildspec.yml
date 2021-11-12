@@ -21,9 +21,9 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name index-phots --zip-file fileb://indexphotos.zip
-      - aws lambda update-function-code --function-name upload-imae --zip-file fileb://uploadphotos.zip
-      - aws lambda update-function-code --function-name searchphots --zip-file fileb://searchphotos.zip
+      - aws lambda update-function-code --function-name index-photos --zip-file fileb://indexphotos.zip
+      - aws lambda update-function-code --function-name upload-image --zip-file fileb://uploadphotos.zip
+      - aws lambda update-function-code --function-name searchphotos --zip-file fileb://searchphotos.zip
       - echo "DONE!!"
 
 
